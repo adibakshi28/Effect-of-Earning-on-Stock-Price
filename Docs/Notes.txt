@@ -1,0 +1,194 @@
+-> Project Structure
+    Namespaces: We'll use a namespace called FinanceProject to encapsulate all project related classes and functions.
+    Header Files:
+        Stock.h
+        EarningsData.h
+        PriceData.h
+        DataFetcher.h
+        Bootstrapper.h
+        MetricsCalculator.h
+        Plotter.h
+        Menu.h
+        Utilities.h
+    Classes:
+        Stock (Base Class)
+            Inherited by EarningsStock
+        EarningsData
+        PriceData
+        DataFetcher
+        Bootstrapper
+        MetricsCalculator
+        Plotter
+        Menu
+        Utilities (Static helper functions)
+
+
+
+-> Explanation of Classes and Their Relationships
+
+Stock and EarningsStock
+
+    Stock is a base class representing a general stock with basic attributes like ticker, name, and sector.
+    EarningsStock inherits from Stock and adds EarningsData as a data member to include earnings-related information.
+    Polymorphism: Stock has a virtual function displayInfo() which is overridden in EarningsStock to display additional earnings information.
+
+EarningsData
+
+    Contains earnings announcement details such as estimate, reported EPS, surprise, and surprise percentage.
+    Provides functions to calculate surprise and display earnings info.
+
+PriceData
+
+    Holds adjusted close prices and daily returns for a stock.
+    Provides functions to calculate daily returns and display price data.
+
+DataFetcher
+
+    Responsible for fetching data from external sources (e.g., using libcurl).
+    Includes functions to read CSV files and retrieve historical prices for stocks and the benchmark.
+
+Bootstrapper
+
+    Implements the bootstrap algorithm.
+    Performs bootstrapping over specified iterations and sample sizes.
+    Generates matrices of Abnormal Returns (AR) for further calculations.
+
+MetricsCalculator
+
+    Provides static functions to calculate AAR, CAAR, and their standard deviations.
+    These functions operate on data matrices produced by the Bootstrapper.
+
+Plotter
+
+    Handles plotting of CAAR graphs using gnuplot.
+    Prepares data files and executes gnuplot scripts.
+
+Menu
+
+    Manages user interaction and menu options.
+    Calls appropriate functions based on user selections.
+    Maintains the state of the application, such as the value of N and data retrieval status.
+
+Utilities
+
+    Contains static helper functions for common tasks like string splitting, input validation, and mathematical calculations.
+
+
+
+
+-> Task Division Among Team Members
+
+Team Member 1: Data Retrieval
+Tasks:
+
+    Implement the DataFetcher Class
+        Functions to read CSV files (Russell3000Components.csv and EarningsData.csv).
+        Fetch historical price data using libcurl for selected stocks and the IWV ETF (benchmark).
+        Parse and store data efficiently.
+
+    Group Stocks Based on Surprise%
+        Sort stocks into Beat, Meet, and Miss groups based on the surprise%.
+        Store grouped stocks for use in bootstrapping.
+
+Team Member 2: Data Modeling 
+Tasks:
+
+    Implement the Stock, EarningsStock, EarningsData, and PriceData Classes
+        Define class structures with appropriate data members and member functions.
+        Ensure proper inheritance (EarningsStock inherits from Stock).
+        Implement encapsulation and data validation.
+
+    Implement the Utilities Class
+        Develop static helper functions (e.g., string splitting, input validation, log return calculations).
+
+Team Member 3: Statistical Computation
+Tasks:
+
+    Implement the Bootstrapper Class
+        Develop the bootstrapping algorithm.
+        Randomly select 30 stocks from each group (Beat, Meet, Miss).
+        Retrieve historical prices for 2N+1 days around the earnings release.
+        Calculate Abnormal Returns (ARit) for each stock.
+        Generate matrices of Abnormal Returns for further calculations.
+
+    Work with Team Member 1 to Ensure Data Compatibility
+        Coordinate on data formats and structures used.
+
+Team Member 4: Metrics Calculation 
+Tasks:
+
+    Implement the MetricsCalculator Class
+        Functions to calculate Average Abnormal Return (AAR).
+        Calculate Cumulative Average Abnormal Return (CAAR).
+        Compute standard deviations (AAR-STD, CAAR-STD).
+        Ensure calculations are accurate and optimized.
+
+    Prepare Data for Plotting
+        Format data appropriately for use by the Plotter.
+
+Team Member 5: User Interface and Visualization 
+Tasks:
+
+    Implement the Menu Class
+        Design and implement the user interface.
+        Handle user inputs and validate options.
+        Integrate all modules by calling appropriate functions based on menu selections.
+
+    Implement the Plotter Class
+        Integrate with gnuplot to plot CAAR graphs for all three groups.
+        Automate plotting within the program.
+        Ensure plots are correctly formatted and informative.
+
+    Handle Program Flow and Integration
+        Coordinate the sequence of operations.
+        Ensure smooth interaction between different components.
+
+
+-> Concurrent Work
+
+* Team Members 1 and 2 can start immediately on data retrieval and class implementations, respectively.
+* Team Member 3 can begin working on the bootstrap algorithm using dummy data or initial data provided by Team Member 1.
+* Team Member 4 can develop the metrics calculation functions with sample data, coordinating with Team Member 3 to integrate actual data later.
+* Team Member 5 can start designing the menu interface and plotting functionality, creating placeholders for functions that will be implemented by others.
+
+
+-> Individual Task Details
+
+Team Member 1: DataFetcher and Stock Grouping
+
+    Key Deliverables:
+        Functions to fetch and parse data.
+        Grouped stock lists (Beat, Meet, Miss).
+    Dependencies:
+        Provide data structures compatible with other modules.
+
+Team Member 2: Class Implementations
+
+    Key Deliverables:
+        Well-designed classes with proper inheritance and encapsulation.
+        Utilities functions for common tasks.
+    Dependencies:
+        Coordinate with Team Member 1 on data formats.
+
+Team Member 3: Bootstrapper
+
+    Key Deliverables:
+        Bootstrapping algorithm that produces AR matrices.
+    Dependencies:
+        Requires stock data from Team Member 1.
+
+
+Team Member 4: MetricsCalculator
+
+    Key Deliverables:
+        Functions to calculate AAR, CAAR, and standard deviations.
+    Dependencies:
+        Needs AR matrices from Team Member 3.
+
+Team Member 5: Menu and Plotter
+
+    Key Deliverables:
+        User interface that allows interaction with the program.
+        Plotting functionality that generates CAAR graphs.
+    Dependencies:
+        Integrates modules from all other team members.
